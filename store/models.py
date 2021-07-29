@@ -1,11 +1,12 @@
 from django.db import models
 from category.models import Category
+from django.utils.html import format_html
 
 
 class Product(models.Model):
     product_name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
-    description = models.TextField(max_length=500, unique=True)
+    description = models.TextField(max_length=500)
     price = models.IntegerField()
     image = models.ImageField(upload_to='photos/products')
     stock = models.IntegerField()
@@ -16,3 +17,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+    def img(self):
+        return format_html('<img src="{}" height="50" style="border-radius:50px;"/>'.format(self.image.url))
