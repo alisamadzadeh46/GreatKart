@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import format_html
 
 
 class Category(models.Model):
@@ -14,3 +15,7 @@ class Category(models.Model):
     @property
     def name(self):
         return self.category_name
+
+    @property
+    def image(self):
+        return format_html('<img src="{}" height="50" style="border-radius:50px;"/>'.format(self.cat_image.url))
