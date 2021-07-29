@@ -12,10 +12,8 @@ class Category(models.Model):
         verbose_name = 'category'
         verbose_name_plural = 'categories'
 
-    @property
-    def name(self):
+    def __str__(self):
         return self.category_name
 
-    @property
     def image(self):
         return format_html('<img src="{}" height="50" style="border-radius:50px;"/>'.format(self.cat_image.url))
