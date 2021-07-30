@@ -28,6 +28,7 @@
                                 <div class="card-body">
 
                                     <ul class="list-menu">
+                                        <a href="{% url 'store:store' %}"> All products </a>
                                         {% for category in links %}
                                             <li>
                                                 <a href="{% url 'store:products_by_category' category.slug %}">{{ category.category_name }} </a>
