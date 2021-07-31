@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+
 from category.models import Category
 from django.utils.html import format_html
 
@@ -17,6 +19,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+    # def get_url(self):
+    #     return reverse('product_detail', args=[self.category.slug, self.slug])
 
     def img(self):
         return format_html('<img src="{}" height="50" style="border-radius:50px;"/>'.format(self.image.url))
