@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 
 def cart(request):
-    pass
+    return render(request, 'cart/cart.html')
