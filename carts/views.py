@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from carts.models import Cart, CartItem
 from store.models import Product
@@ -32,6 +32,7 @@ def add_cart(request, product_id):
             cart=cart,
         )
         cart_item.save()
+    redirect('carts:cart')
 
 
 def cart(request):
