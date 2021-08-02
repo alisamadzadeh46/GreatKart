@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from carts.models import Cart
+from carts.models import Cart, CartItem
 from store.models import Product
 
 
@@ -20,6 +20,18 @@ def add_cart(request, product_id):
             cart_id=_cart_id(request)
         )
     cart.save()
+
+    try:
+        cart_item = CartItem.objects.get(product=product, cart=cart)
+        cart_item.quantity += 1
+        cart_item.save()
+    except CartItem.DoesNotExist:
+        cart_item = CartItem.objects.create(
+            product=product,
+            quantity=1,
+            cart=cart,
+        )
+        cart_item.save()
 
 
 def cart(request):
