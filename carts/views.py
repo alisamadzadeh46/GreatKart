@@ -32,7 +32,7 @@ def add_cart(request, product_id):
             cart=cart,
         )
         cart_item.save()
-    redirect('carts:cart')
+    return redirect('carts:cart')
 
 
 def cart(request):
