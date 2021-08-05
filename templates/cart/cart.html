@@ -24,9 +24,11 @@
                                 <tr>
                                     <td>
                                         <figure class="itemside align-items-center">
-                                            <div class="aside"><img src="{{ cart_item.product.image.url }}" class="img-sm"></div>
+                                            <div class="aside"><img src="{{ cart_item.product.image.url }}"
+                                                                    class="img-sm"></div>
                                             <figcaption class="info">
-                                                <a href="#" class="title text-dark">{{ cart_item.product.product_name }}</a>
+                                                <a href="#"
+                                                   class="title text-dark">{{ cart_item.product.product_name }}</a>
                                                 <p class="text-muted small">Color: 256 GB <br> Size: ADATA </p>
                                             </figcaption>
                                         </figure>
@@ -36,12 +38,15 @@
                                         <div class="col">
                                             <div class="input-group input-spinner">
                                                 <div class="input-group-prepend">
-                                                    <a href="{% url 'carts:remove_cart' cart_item.product.id %}" class="btn btn-light" type="button" id="button-plus"><i
+                                                    <a href="{% url 'carts:remove_cart' cart_item.product.id %}"
+                                                       class="btn btn-light" type="button" id="button-plus"><i
                                                             class="fa fa-minus"></i></a>
                                                 </div>
-                                                <input type="text" class="form-control" value="{{ cart_item.quantity }}">
+                                                <input type="text" class="form-control"
+                                                       value="{{ cart_item.quantity }}">
                                                 <div class="input-group-append">
-                                                    <a href="{% url 'carts:add_cart' cart_item.product.id %}" class="btn btn-light" type="button" id="button-minus"><i
+                                                    <a href="{% url 'carts:add_cart' cart_item.product.id %}"
+                                                       class="btn btn-light" type="button" id="button-minus"><i
                                                             class="fa fa-plus"></i></a>
                                                 </div>
                                             </div> <!-- input-group.// -->
@@ -54,7 +59,8 @@
                                         </div> <!-- price-wrap .// -->
                                     </td>
                                     <td class="text-right">
-                                        <a href="" class="btn btn-danger"> Remove</a>
+                                        <a href="{% url 'carts:remove_cart_item' cart_item.product.id %}"
+                                           class="btn btn-danger"> Remove</a>
                                     </td>
                                 </tr>
                             {% endfor %}
