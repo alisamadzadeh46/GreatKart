@@ -8,3 +8,9 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['product_name']}
     readonly_fields = ['img', ]
     list_filter = ['stock', 'category', 'is_available']
+
+
+@admin.register(Variation)
+class VariationAdmin(admin.ModelAdmin):
+    list_display = ['product', 'variation_category', 'variation_value', 'is_active', 'created_date',]
+    list_filter = ['is_active', 'variation_category',]
