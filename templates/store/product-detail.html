@@ -16,7 +16,8 @@
                         </article> <!-- gallery-wrap .end// -->
                     </aside>
                     <main class="col-md-6 border-left">
-                        <form action="{% url 'carts:add_cart' single_product.id %}" method="get">
+                        <form action="{% url 'carts:add_cart' single_product.id %}" method="post">
+                            {% csrf_token %}
                             <article class="content-body">
 
                                 <h2 class="title">{{ single_product.product_name }}</h2>
@@ -33,7 +34,7 @@
                                     <div class="item-option-select">
                                         <h6>Choose Color</h6>
                                         <select name="color" class="form-control" required>
-                                            <option value="" disabled selected> Choose color</option>
+                                            <option value="" disabled selected> Select</option>
                                             {% for foo in single_product.variation_set.colors %}
                                                 <option value="{{ foo.variation_value | lower }}">{{ foo.variation_value | capfirst }}</option>
                                             {% endfor %}
@@ -44,7 +45,7 @@
                                     <div class="item-option-select">
                                         <h6>Select Size</h6>
                                         <select name="size" class="form-control" required>
-                                            <option value="" disabled selected> Choose size</option>
+                                            <option value="" disabled selected> Select</option>
                                             {% for foo in single_product.variation_set.sizes %}
                                                 <option value="{{ foo.variation_value | lower }}">{{ foo.variation_value |  capfirst }}</option>
                                             {% endfor %}
