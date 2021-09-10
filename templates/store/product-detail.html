@@ -34,22 +34,24 @@
                                         <h6>Choose Color</h6>
                                         <select name="color" class="form-control" required>
                                             <option value="" disabled selected> Choose color</option>
-                                            {% for foo in single_product.variation_set.all %}
-                                                <option value="{{ foo.variation_value }}">{{ foo.variation_value }}</option>
+                                            {% for foo in single_product.variation_set.colors %}
+                                                <option value="{{ foo.variation_value | lower }}">{{ foo.variation_value | capfirst }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div> <!-- row.// -->
-{#                                <div class="row">#}
-{#                                    <div class="item-option-select">#}
-{#                                        <h6>Select Size</h6>#}
-{#                                        <select name="size" class="form-control">#}
-{##}
-{#                                            <option value="small">Small</option>#}
-{#                                            #}
-{#                                        </select>#}
-{#                                    </div>#}
-{#                                </div> <!-- row.// -->#}
+                                <div class="row">
+                                    <div class="item-option-select">
+                                        <h6>Select Size</h6>
+                                        <select name="size" class="form-control" required>
+                                            <option value="" disabled selected> Choose size</option>
+                                            {% for foo in single_product.variation_set.sizes %}
+                                                <option value="{{ foo.variation_value | lower }}">{{ foo.variation_value |  capfirst }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div> <!-- row.// -->
                                 <hr>
                                 {% if single_product.stock <= 0 %}
                                     <h5>Out of Stock</h5>

@@ -27,6 +27,14 @@ class Product(models.Model):
         return format_html('<img src="{}" height="50" style="border-radius:50px;"/>'.format(self.image.url))
 
 
+class VariationManager(models.Manager):
+    def colors(self):
+        return super(VariationManager, self).filter(variation_category='color', is_active=True)
+
+    def sizes(self):
+        return super(VariationManager, self).filter(variation_category='size', is_active=True)
+
+
 class Variation(models.Model):
     variation_category_choice = (
         ('color', 'color'),
@@ -37,6 +45,8 @@ class Variation(models.Model):
     variation_value = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now=True)
+
+    object = VariationManager()
 
     def __str__(self):
         return self.product.product_name
