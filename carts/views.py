@@ -190,6 +190,7 @@ def remove_cart_item(request, product_id, cart_item_id):
 
 @login_required(login_url='account:login')
 def checkout(request, total=0, quantity=0, cart_items=None):
+    global tax, grand_total
     try:
         tax = 0
         grand_total = 0
