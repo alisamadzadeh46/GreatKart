@@ -12,5 +12,13 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Variation)
 class VariationAdmin(admin.ModelAdmin):
-    list_display = ['product', 'variation_category', 'variation_value', 'is_active', 'created_date',]
-    list_filter = ['is_active', 'variation_category',]
+    list_display = ['product', 'variation_category', 'variation_value', 'is_active', 'created_date', ]
+    list_filter = ['is_active', 'variation_category', ]
+
+
+
+
+@admin.register(ReviewRating)
+class ReviewRatingAdmin(admin.ModelAdmin):
+    list_display = ['product', 'user', 'subject', 'review', 'status']
+    search_fields = ['product', 'user', 'subject', 'review', 'status']
