@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils.html import format_html
 
 
 class MyAccountManager(BaseUserManager):
@@ -65,3 +66,22 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, add_label):
         return True
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    address_line1 = models.CharField(blank=True, max_length=100)
+    address_line2 = models.CharField(blank=True, max_length=100)
+    profile_picture = models.ImageField(blank=True, upload_to='photos/userprofile')
+    city = models.CharField(blank=True, max_length=20)
+    state = models.CharField(blank=True, max_length=20)
+    country = models.CharField(blank=True, max_length=20)
+
+    def __str__(self):
+        return self.user.first_name
+
+    def full_address(self):
+        return f'{self.address_line1} {self.address_line2}'
+
+    def img(self):
+        return format_html('<img src="{}" height="50" style="border-radius:50px;"/>'.format(self.profile_picture.url))
