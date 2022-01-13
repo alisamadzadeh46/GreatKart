@@ -4,6 +4,7 @@ from django.urls import reverse
 from accounts.models import Account
 from category.models import Category
 from django.utils.html import format_html
+from django.db.models import Avg, Count
 
 
 class Product(models.Model):
@@ -20,6 +21,20 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+    def averageReview(self):
+        reviews = ReviewRating.objects.filter(product=self, status=True).aggregate(average=Avg('rating'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg = float(reviews['average'])
+        return avg
+
+    def countReview(self):
+        reviews = ReviewRating.objects.filter(product=self, status=True).aggregate(count=Count('id'))
+        count = 0
+        if reviews['count'] is not None:
+            count = int(reviews['count'])
+        return count
 
     def get_url(self):
         return reverse('store:product_detail', args=[self.category.slug, self.slug])

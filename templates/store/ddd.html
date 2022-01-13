@@ -1,6 +1,8 @@
-{% extends 'base/base.html' %}
-{% block title %} GreatKart | Product detail {% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
+
     <section class="section-content padding-y bg">
         <div class="container">
 
@@ -10,13 +12,14 @@
                     <aside class="col-md-6">
                         <article class="gallery-wrap">
                             <div class="img-big-wrap">
-                                <a href="#"><img src="{{ single_product.image.url }}"></a>
+                                <a href="#"><img src="{{ single_product.images.url }}"></a>
                             </div> <!-- img-big-wrap.// -->
 
                         </article> <!-- gallery-wrap .end// -->
                     </aside>
                     <main class="col-md-6 border-left">
-                        <form action="{% url 'carts:add_cart' single_product.id %}" method="post">
+
+                        <form action="{% url 'add_cart' single_product.id %}" method="POST">
                             {% csrf_token %}
                             <article class="content-body">
 
@@ -37,6 +40,7 @@
 									</span>
                                 </div>
 
+
                                 <div class="mb-3">
                                     <var class="price h4">$ {{ single_product.price }}</var>
                                 </div>
@@ -49,35 +53,31 @@
                                     <div class="item-option-select">
                                         <h6>Choose Color</h6>
                                         <select name="color" class="form-control" required>
-                                            <option value="" disabled selected> Select</option>
-                                            {% for foo in single_product.variation_set.colors %}
-                                                <option value="{{ foo.variation_value | lower }}">{{ foo.variation_value | capfirst }}</option>
+                                            <option value="" disabled selected>Select</option>
+                                            {% for i in single_product.variation_set.colors %}
+                                                <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                </div> <!-- row.// -->
+                                </div>
                                 <div class="row">
                                     <div class="item-option-select">
                                         <h6>Select Size</h6>
-                                        <select name="size" class="form-control" required>
-                                            <option value="" disabled selected> Select</option>
-                                            {% for foo in single_product.variation_set.sizes %}
-                                                <option value="{{ foo.variation_value | lower }}">{{ foo.variation_value |  capfirst }}</option>
+                                        <select name="size" class="form-control">
+                                            <option value="" disabled selected>Select</option>
+                                            {% for i in single_product.variation_set.sizes %}
+                                                <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
                                             {% endfor %}
-
                                         </select>
                                     </div>
-                                </div> <!-- row.// -->
+                                </div>
                                 <hr>
                                 {% if single_product.stock <= 0 %}
-                                    <h5>Out of Stock</h5>
+                                    <h5 class="text-danger">Out of Stock</h5>
                                 {% else %}
-                                    <button type="submit"
-                                            class="btn  btn-primary"> <span
-                                            class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>
-                                    </button>
+                                    <button type="submit" class="btn  btn-primary"><span class="text">Add to Cart</span>
+                                        <i class="fas fa-shopping-cart"></i></button>
                                 {% endif %}
-
                             </article> <!-- product-info-aside .// -->
                         </form>
                     </main> <!-- col.// -->
@@ -91,7 +91,7 @@
                 <div class="col-md-9">
 
 
-                    <form action="{% url 'store:submit_review' single_product.id %}" method="POST">
+                    <form action="{% url 'submit_review' single_product.id %}" method="POST">
                         {% csrf_token %}
                         <h5>Write Your Review</h5>
 
@@ -129,13 +129,18 @@
                             <textarea name="review" rows="4" class="form-control"></textarea>
                             <br>
                             {% if user.is_authenticated %}
+                                {% if orderproduct %}
+                                    <input type="submit" value="Submit Review" class="btn btn-primary">
+                                {% else %}
+                                    <p>You must purchase this product to post a review.</p>
+                                {% endif %}
                             {% else %}
                                 <p>You must be logged in to post a review. <span><a
-                                        href="{% url 'account:login' %}">Login now</a></span></p>
+                                        href="{% url 'login' %}">Login now</a></span></p>
                             {% endif %}
 
                         </div>
-                        {% include 'base/alert.html' %}
+                        {% include 'includes/alerts.html' %}
                     </form>
                     <br>
                     <header class="section-heading">
@@ -192,9 +197,11 @@
 
 
                 </div> <!-- col.// -->
-            </div>
+            </div> <!-- row.// -->
 
 
         </div> <!-- container .//  -->
     </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+
 {% endblock %}
