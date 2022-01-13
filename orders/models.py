@@ -3,7 +3,6 @@ from accounts.models import Account
 from store.models import Product, Variation
 
 
-
 class Payment(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=100)
@@ -44,7 +43,6 @@ class Order(models.Model):
     is_ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
