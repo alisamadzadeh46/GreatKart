@@ -1,5 +1,12 @@
+import admin_thumbnails
 from django.contrib import admin
 from .models import *
+
+
+@admin_thumbnails.thumbnail('image')
+class ProductGalleryInlineAdmin(admin.TabularInline):
+    model = ProductGallery
+    extra = 1
 
 
 @admin.register(Product)
@@ -7,6 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['product_name', 'price', 'stock', 'category', 'modified_date', 'is_available', 'img']
     prepopulated_fields = {'slug': ['product_name']}
     readonly_fields = ['img', ]
+    inlines = [ProductGalleryInlineAdmin]
     list_filter = ['stock', 'category', 'is_available']
 
 
@@ -16,9 +24,13 @@ class VariationAdmin(admin.ModelAdmin):
     list_filter = ['is_active', 'variation_category', ]
 
 
-
-
 @admin.register(ReviewRating)
 class ReviewRatingAdmin(admin.ModelAdmin):
     list_display = ['product', 'user', 'subject', 'review', 'status']
     search_fields = ['product', 'user', 'subject', 'review', 'status']
+
+
+@admin.register(ProductGallery)
+class ProductGalleryAdmin(admin.ModelAdmin):
+    list_display = ['product', 'img']
+    readonly_fields = ['img', ]
