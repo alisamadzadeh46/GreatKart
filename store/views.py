@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from carts.models import CartItem
 from store.forms import ReviewForm
-from store.models import Product, ReviewRating
+from store.models import Product, ReviewRating, ProductGallery
 from category.models import Category
 from carts.views import _cart_id
 from django.core.paginator import Paginator
@@ -41,10 +41,12 @@ def product_detail(request, category_slug, product_slug):
     except Exception as e:
         raise e
     reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
+    product_gallery = ProductGallery.objects.filter(product_id=single_product.id)
     context = {
         'single_product': single_product,
         'in_cart': in_cart,
         'reviews': reviews,
+        'product_gallery': product_gallery,
     }
     return render(request, 'store/product-detail.html', context)
 

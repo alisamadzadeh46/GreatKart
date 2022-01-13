@@ -30,6 +30,8 @@
 
     <!-- custom javascript -->
     <script src="{% static 'template/js/script.js' %}" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <script type="text/javascript">
         /// some script
@@ -138,7 +140,14 @@
         </div> <!-- container.// -->
     </section> <!-- header-main .// -->
 
-
+    <script>
+        $(document).ready(function () {
+            $('.thumb a').click(function (e) {
+                e.preventDefault();
+                $('.main-image img').attr('src', $(this).attr("href"));
+            })
+        })
+    </script>
 </header> <!-- section-header.// -->
 
 
