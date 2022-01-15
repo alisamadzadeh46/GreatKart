@@ -4,8 +4,8 @@ from .models import *
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['cart_id', 'cart_id']
-    list_filter = ['cart_id', 'cart_id']
+    list_display = ['cart_id', 'date_added']
+    list_filter = ['cart_id', 'date_added']
 
 
 @admin.register(CartItem)
