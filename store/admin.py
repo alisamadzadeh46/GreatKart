@@ -15,6 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['product_name']}
     readonly_fields = ['img', ]
     inlines = [ProductGalleryInlineAdmin]
+    list_per_page = 10
     list_filter = ['stock', 'category', 'is_available']
 
 
@@ -22,15 +23,18 @@ class ProductAdmin(admin.ModelAdmin):
 class VariationAdmin(admin.ModelAdmin):
     list_display = ['product', 'variation_category', 'variation_value', 'is_active', 'created_date', ]
     list_filter = ['is_active', 'variation_category', ]
+    list_per_page = 10
 
 
 @admin.register(ReviewRating)
 class ReviewRatingAdmin(admin.ModelAdmin):
     list_display = ['product', 'user', 'subject', 'review', 'status']
     search_fields = ['product', 'user', 'subject', 'review', 'status']
+    list_per_page = 10
 
 
 @admin.register(ProductGallery)
 class ProductGalleryAdmin(admin.ModelAdmin):
     list_display = ['product', 'img']
     readonly_fields = ['img', ]
+    list_per_page = 10

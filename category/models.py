@@ -3,14 +3,14 @@ from django.utils.html import format_html
 
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=80, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
-    description = models.TextField(max_length=80, blank=True)
-    cat_image = models.ImageField(upload_to='photos/categories', blank=True)
+    category_name = models.CharField(max_length=80, unique=True, verbose_name='نام دسته بندی')
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='دسته بندی')
+    description = models.TextField(max_length=80, blank=True, verbose_name='توضیحات')
+    cat_image = models.ImageField(upload_to='photos/categories', blank=True, verbose_name='تصویر')
 
     class Meta:
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+        verbose_name = 'دسته بندی ها'
+        verbose_name_plural = 'دسته بندی ها'
 
     def __str__(self):
         return self.category_name

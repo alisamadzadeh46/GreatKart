@@ -4,15 +4,19 @@ from store.models import Product, Variation
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(Account, on_delete=models.CASCADE)
-    payment_id = models.CharField(max_length=100)
-    payment_method = models.CharField(max_length=100)
-    amount_paid = models.CharField(max_length=100)
-    status = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, verbose_name='کاربر')
+    payment_id = models.CharField(max_length=100, verbose_name='آیدی پرداخت')
+    payment_method = models.CharField(max_length=100, verbose_name='روش پرداخت')
+    amount_paid = models.CharField(max_length=100, verbose_name='قیمت')
+    status = models.CharField(max_length=100, verbose_name='وضعیت')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ پرداخت')
 
     def __str__(self):
         return self.payment_id
+
+    class Meta:
+        verbose_name = 'پرداخت'
+        verbose_name_plural = 'پرداخت'
 
 
 class Order(models.Model):
@@ -53,18 +57,28 @@ class Order(models.Model):
     def __str__(self):
         return self.first_name
 
+    class Meta:
+        verbose_name = 'سفارشات'
+        verbose_name_plural = 'سفارشات'
+
 
 class OrderProduct(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True)
-    user = models.ForeignKey(Account, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    variations = models.ManyToManyField(Variation, blank=True)
-    quantity = models.IntegerField()
-    product_price = models.FloatField()
-    ordered = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name='سفارش')
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='پرداخت')
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, verbose_name='کاربر')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    variations = models.ManyToManyField(Variation, blank=True, verbose_name='ایتم های انتخاب شده')
+    quantity = models.IntegerField(verbose_name='موجودی')
+    product_price = models.FloatField(verbose_name='قیمت محصول')
+    ordered = models.BooleanField(default=False, verbose_name='وضعیت سفارش')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='تاریخ بروزرسانی')
 
     def __str__(self):
         return self.product.product_name
+
+    class Meta:
+        verbose_name = 'سفارش محصول'
+        verbose_name_plural = 'سفارش محصولات'
+
+

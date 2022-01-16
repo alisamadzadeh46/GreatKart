@@ -10,3 +10,4 @@ class CategoryAdmin(admin.ModelAdmin):
     readonly_fields = ['image', ]
     prepopulated_fields = {'slug': ('category_name',)}
     search_fields = ['category_name', 'slug']
+    list_per_page = 10
