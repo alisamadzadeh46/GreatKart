@@ -1,13 +1,14 @@
 from django.shortcuts import render
-from store.models import Product, ReviewRating
+
+from home.models import Slider
+from store.models import Product
 
 
 def home(request):
-    products = Product.objects.all().filter(is_available=True).order_by('created_date')
-    for product in products:
-        reviews = ReviewRating.objects.filter(product_id=product.id, status=True)
+    products = Product.objects.all().filter(is_available=True).order_by('created_date')[:5]
+    slider = Slider.objects.all()
     context = {
         'products': products,
-        'reviews': reviews,
+        'slider': slider,
     }
     return render(request, 'home/index.html', context)
