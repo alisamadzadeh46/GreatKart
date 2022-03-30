@@ -1,18 +1,18 @@
 {% load static %}
-<aside class="col-md-3">
+<aside class="col-md-3 new-font">
     <!--   SIDEBAR   -->
-    <ul class="list-group">
-        <a class="list-group-item {% if '/account/' == request.path %} active {% endif %}"
-           href="{% url 'account:dashboard' %}"> Dashboard </a>
-        <a class="list-group-item {% if '/my_orders/' in request.path %} active {% endif %}"
-           href="{% url 'account:my_orders' %}"> My orders </a>
-        <a class="list-group-item {% if '/edit_profile/' in request.path %} active {% endif %}"
-           href="{% url 'account:edit_profile' %}"> Edit Profile </a>
-        <a class="list-group-item {% if '/change_password/' in request.path %} active {% endif %}"
-           href="{% url 'account:change_password' %}">Change password </a>
+    <ul class="list-group" style="text-align: right;">
+        <a class="list-group-item  {% if '/account/' == request.path %} active {% endif %}"
+           href="{% url 'account:dashboard' %}"> داشبورد </a>
+        <a class="list-group-item  {% if '/my_orders/' in request.path %} active {% endif %}"
+           href="{% url 'account:my_orders' %}"> خرید های من </a>
+        <a class="list-group-item  {% if '/edit_profile/' in request.path %} active {% endif %}"
+           href="{% url 'account:edit_profile' %}"> ویرایش پروفایل </a>
+        <a class="list-group-item   {% if '/change_password/' in request.path %} active {% endif %}"
+           href="{% url 'account:change_password' %}"> تغییر رمز عبور </a>
     </ul>
     <br>
     <a class="btn btn-light btn-block" href="{% url 'account:logout' %}"> <i class="fa fa-power-off"></i> <span
-            class="text">Log out</span> </a>
+            class="text"> خروج </span> </a>
     <!--   SIDEBAR .//END   -->
 </aside>

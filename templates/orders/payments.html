@@ -1,47 +1,49 @@
 {% extends 'base/base.html' %}
+{% load persian_number %}
+{% load humanize %}
 {% load static %}
-{% block title %} GreatKart | Payment {% endblock %}
+{% block title %} تایید نهایی و پرداخت  |  تک کا مارکت {% endblock %}
 {% block content %}
-    <section class="section-content padding-y bg">
+    <section class="section-content padding-y bg new-font">
         <div class="container">
 
             <!-- ============================ COMPONENT 1 ================================= -->
-            <h4 class="text-center mb-20">Review Your Order and Make Payment</h4>
+            <h4 class="text-center mb-20">تایید نهایی و پرداخت</h4>
             <div class="row">
 
                 <aside class="col-lg-8">
                     <div class="card">
-                        <h5 class="card-header">Billing Address</h5>
+                        <h5 class="card-header">ادرس و مشخصات</h5>
                         <div class="card-body">
-                            <p class="card-text mb-0">{{ order.full_name }}</p>
-                            <p class="card-text mb-0">{{ order.full_address }}</p>
-                            <p class="card-text mb-0">{{ order.city }}, {{ order.state }}</p>
-                            <p class="card-text mb-0">{{ order.country }}</p>
-                            <p class="card-text mb-0">{{ order.email }}</p>
-                            <p class="card-text mb-0">{{ order.phone }}</p>
+                            <p class="card-text mb-0"> نام : {{ order.full_name }}</p>
+                            <p class="card-text mb-0"> ادرس : {{ order.address_line_1 }}</p>
+                            <p class="card-text mb-0"> شهر و کوچه : {{ order.city }}, {{ order.state }}</p>
+                            <p class="card-text mb-0"> کشور : {{ order.country }}</p>
+                            <p class="card-text mb-0"> ایمیل : {{ order.email }}</p>
+                            <p class="card-text mb-0"> شماره تماس : {{ order.phone | persianize_digits }}  </p>
                             {% if order.order_note %}
-                                <b>Order Note: </b> {{ order.order_note }}
+                                <b> یادداشت : </b> {{ order.order_note }}
                             {% endif %}
 
 
                         </div>
                     </div>
                     <div class="card">
-                        <h5 class="card-header">Payment Method</h5>
+                        <h5 class="card-header">روش پرداخت</h5>
                         <div class="card-body">
-                            <p class="card-text">PayPal</p>
+                            <p class="card-text">واتساپ</p>
 
                         </div>
                     </div>
                     <div class="card">
-                        <h5 class="card-header">Review Products</h5>
+                        <h5 class="card-header">جزئیات محصول</h5>
                         <div class="card-body">
                             <table class="table table-borderless table-shopping-cart">
                                 <thead class="text-muted">
                                 <tr class="small text-uppercase">
-                                    <th scope="col">Product</th>
-                                    <th scope="col" width="120">Quantity</th>
-                                    <th scope="col" width="120">Price</th>
+                                    <th scope="col">محصول</th>
+                                    <th scope="col" width="120">تعداد</th>
+                                    <th scope="col" width="120">قیمت</th>
 
                                 </tr>
                                 </thead>
@@ -55,7 +57,7 @@
                                                                         class="img-sm"></div>
                                                 <figcaption class="info">
                                                     <a href="{{ cart_item.product.get_url }}"
-                                                       class="title text-dark">{{ cart_item.product.product_name }}</a>
+                                                       class="title text-dark">{{ cart_item.product.product_name | persianize_digits }}</a>
                                                     <p class="text-muted small">
                                                         {% if cart_item.variations.all %}
                                                             {% for item in cart_item.variations.all %}
@@ -69,12 +71,14 @@
                                         </td>
                                         <td>
                                             <!-- col.// -->
-                                            <label for="">{{ cart_item.quantity }}</label>
+                                            <label for="">{{ cart_item.quantity | persianize_digits }}</label>
                                         </td>
                                         <td>
                                             <div class="price-wrap">
-                                                <var class="price">$ {{ cart_item.sub_total }}</var>
-                                                <small class="text-muted"> $ {{ cart_item.product.price }} each </small>
+                                                <var class="price"> {{ cart_item.sub_total |persianize_digits | intcomma:False }}</var>
+                                                <small class="text-muted">
+                                                    تومان {{ cart_item.product.price |persianize_digits | intcomma:False }}
+                                                     هر محصول </small>
                                             </div> <!-- price-wrap .// -->
                                         </td>
 
@@ -93,22 +97,46 @@
                     <div class="card">
                         <div class="card-body">
                             <dl class="dlist-align">
-                                <dt>Total price:</dt>
-                                <dd class="text-right">$ {{ total }}</dd>
+                                <dt>قیمت کل محصول:</dt>
+                                <dd class="text-right new-font">
+                                    تومان{{ total |intcomma:False | persianize_digits }}</dd>
                             </dl>
+                            {#                            <dl class="dlist-align">#}
+                            {#                                <dt>مالیات:</dt>#}
+                            {#                                <dd class="text-right new-font">تومان{{ tax |intcomma:False | persianize_digits }}</dd>#}
+                            {#                            </dl>#}
                             <dl class="dlist-align">
-                                <dt>Tax:</dt>
-                                <dd class="text-right"> $ {{ tax }}</dd>
-                            </dl>
-                            <dl class="dlist-align">
-                                <dt>Grand Total:</dt>
-                                <dd class="text-right text-dark b"><strong>$ {{ grand_total }}</strong></dd>
+                                <dt>قیمت کل :</dt>
+                                <dd class="text-right text-dark b">
+                                    <strong class="new-font">تومان{{ grand_total |  intcomma:False | persianize_digits }}  </strong>
+                                </dd>
                             </dl>
                             <hr>
                             <p class="text-center mb-3">
-                                <img src="{% static 'template/images/zarinpal.svg' %}" height="80" width="80">
+                                <img src="{% static 'template/images/WhatsApp-Emblem.png' %}" height="26">
                             </p>
 
+                            <a data-action="share/whatsapp/share" href="https://wa.me/+989333966886/?text= نام : {{ order.full_name }} ,
+ ادرس : {{ order.address_line_1 }} ||||
+ شهر و کوچه : {{ order.city }}   ,   {{ order.state }}   ,
+ کشور : {{ order.country }}  ||||
+ ایمیل : {{ order.email }}   ||||
+ شماره تماس : {{ order.phone | persianize_digits }}  ||||
+     {% if order.order_note %}
+                               یادداشت :   {{ order.order_note }}  ,
+                            {% endif %}
+  قیمت کل محصول : تومان  {{ total |intcomma:False | persianize_digits }}    ||||
+قیمت کل : تومان{{ grand_total |  intcomma:False | persianize_digits }}
+|||||||||||||
+مشخصات محصول :  {% for cart_item in cart_items %}
+|||||||||||||
+
+ تعداد : {{ cart_item.quantity | persianize_digits }}   ||||
+ نام محصول : {{ cart_item.product.product_name | persianize_digits }} ||||
+ تومان هر محصول: {{ cart_item.product.price |persianize_digits | intcomma:False }}
+{% endfor %}"
+                               class="btn btn-primary btn-block"> تایید نهایی
+                            </a>
 
                             <div id="paypal-button-container">
                                 <!-- PayPal Button Will Load -->
