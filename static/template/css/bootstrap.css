@@ -4621,12 +4621,12 @@ input[type=button].btn-block {
 
 .page-item:first-child .page-link {
   margin-left: 0;
-  border-top-left-radius: 0.37rem;
-  border-bottom-left-radius: 0.37rem;
-}
-.page-item:last-child .page-link {
   border-top-right-radius: 0.37rem;
   border-bottom-right-radius: 0.37rem;
+}
+.page-item:last-child .page-link {
+  border-top-left-radius: 0.37rem;
+  border-bottom-left-radius: 0.37rem;
 }
 .page-item.active .page-link {
   z-index: 1;
