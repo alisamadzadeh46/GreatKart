@@ -1,5 +1,3 @@
-from django.db import models
-
 from accounts.models import Account
 from store.models import *
 
@@ -33,3 +31,4 @@ class CartItem(models.Model):
     class Meta:
         verbose_name = 'سبد خرید'
         verbose_name_plural = 'سبد خرید'
+

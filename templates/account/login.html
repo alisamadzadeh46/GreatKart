@@ -1,45 +1,45 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %} GreatKart | Login {% endblock %}
+{% block title %} ورود  |  تک کا مارکت {% endblock %}
 {% block content %}
-    <section class="section-conten padding-y" style="min-height:84vh">
+    <section class="section-conten padding-y new-font" style="min-height:84vh">
         {% if request.GET.command == 'verification' %}
 
             <div class="container mx-auto alert alert-info text-center" role="alert"
                  style="max-width: 1024px; margin-top:100px;">
-                Thank you for registering with us. We have sent you a verification email to your email address
+                ممنون از ثبت نام شما.ما لینکی حاوی فعالسازی به ادرس ایمیل ثبت نام فرستادیم
                 [{{ request.GET.email }}]
                 <br><br>
-                Already verified? <a href="{% url 'account:login' %}">Login</a>
+                حساب شما فعال شده است؟ <a href="{% url 'account:login' %}">ورود</a>
             </div>
 
         {% else %}
             <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
 
                 <div class="card-body">
-                    <h4 class="card-title mb-4">Sign in</h4>
+                    <h4 class="card-title mb-4" style="text-align: right;">ورود</h4>
                     {% include 'base/alert.html' %}
-                    <form action="{% url 'account:login' %}" method="POST">
+                    <form action="{% url 'account:login' %}" method="POST" style="text-align: right;direction: rtl;">
                         {% csrf_token %}
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Email Address" name="email">
+                            <input type="text" class="form-control" placeholder="شماره همراه" name="phone">
                         </div> <!-- form-group// -->
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Password" name="password">
+                            <input type="password" class="form-control" placeholder="رمزعبور" name="password">
                         </div> <!-- form-group// -->
 
                         <div class="form-group">
-                            <a href="{% url 'account:forgotPassword' %}" class="float-right">Forgot password?</a>
+                            <a href="{% url 'account:forgotPassword' %}" class="float-right">فراموشی رمز عبور</a>
 
                         </div> <!-- form-group form-check .// -->
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block"> Login</button>
+                            <button type="submit" class="btn btn-primary btn-block"> ورود</button>
                         </div> <!-- form-group// -->
                     </form>
                 </div> <!-- card-body.// -->
             </div> <!-- card .// -->
 
-            <p class="text-center mt-4">Don't have account? <a href="{% url 'account:register' %}">Sign up</a></p>
+            <p class="text-center mt-4">حساب کاربر ندارید؟ <a href="{% url 'account:register' %}">ثبت نام</a></p>
             <br><br>
             <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
         {% endif %}

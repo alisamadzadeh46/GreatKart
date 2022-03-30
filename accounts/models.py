@@ -40,8 +40,8 @@ class Account(AbstractBaseUser):
     first_name = models.CharField(max_length=120, verbose_name='نام')
     last_name = models.CharField(max_length=120, verbose_name='نام خانوادگی')
     username = models.CharField(max_length=120, unique=True, verbose_name='نام کاربری')
-    email = models.EmailField(max_length=120, unique=True, verbose_name='ایمیل')
-    phone_number = models.CharField(max_length=120, verbose_name='شماره همراه')
+    email = models.EmailField(max_length=120, null=True, blank=True, verbose_name='ایمیل')
+    phone_number = models.CharField(max_length=120, unique=True, verbose_name='شماره همراه')
     date_join = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ عضویت')
     last_login = models.DateTimeField(auto_now_add=True, verbose_name='اخرین ورود')
     is_admin = models.BooleanField(default=False)
@@ -49,7 +49,7 @@ class Account(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
     objects = MyAccountManager()
@@ -67,6 +67,12 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, add_label):
         return True
 
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
+
     class Meta:
         verbose_name = 'حساب های کاربران'
         verbose_name_plural = 'حساب های کاربران'
@@ -74,24 +80,20 @@ class Account(AbstractBaseUser):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, verbose_name='کاربر')
-    address_line1 = models.CharField(blank=True, max_length=100, verbose_name='آدرس اول ')
-    address_line2 = models.CharField(blank=True, max_length=100, verbose_name='آدرس دوم')
-    profile_picture = models.ImageField(blank=True, upload_to='photos/userprofile', verbose_name='تصویر کاربر')
-    city = models.CharField(blank=True, max_length=20, verbose_name='شهر')
-    state = models.CharField(blank=True, max_length=20, verbose_name='ایالت')
-    country = models.CharField(blank=True, max_length=20, verbose_name='کشور')
+    address_line1 = models.CharField(blank=True, max_length=100, null=True, verbose_name='آدرس اول ')
+    profile_picture = models.ImageField(blank=True, null=True, upload_to='photos/userprofile',
+                                        verbose_name='تصویر کاربر',
+                                        default='photos/userprofile/user.png')
+    city = models.CharField(blank=True, null=True, max_length=20, verbose_name='شهر')
+    state = models.CharField(blank=True, null=True, max_length=20, verbose_name='کوچه')
+    country = models.CharField(blank=True, null=True, max_length=20, verbose_name='کشور')
 
     def __str__(self):
         return self.user.first_name
 
-    def full_address(self):
-        return f'{self.address_line1} {self.address_line2}'
-
     def img(self):
         return format_html('<img src="{}" height="50" style="border-radius:50px;"/>'.format(self.profile_picture.url))
-
 
     class Meta:
         verbose_name = 'پروفایل کاربران'
         verbose_name_plural = 'پروفایل کاربران'
-

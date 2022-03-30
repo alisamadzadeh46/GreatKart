@@ -21,38 +21,33 @@ class Payment(models.Model):
 
 class Order(models.Model):
     STATUS = (
-        ('New', 'New'),
-        ('Accepted', 'Accepted'),
-        ('Completed', 'Completed'),
-        ('Cancelled', 'Cancelled'),
+        ('جدید', 'جدید'),
+        ('قبول', 'قبول'),
+        ('تکمیل شده', 'تکمیل شده'),
+        ('لغو شده', 'لغو شده'),
     )
 
-    user = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True)
-    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True)
-    order_number = models.CharField(max_length=20)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=15)
-    email = models.EmailField(max_length=50)
-    address_line_1 = models.CharField(max_length=50)
-    address_line_2 = models.CharField(max_length=50, blank=True)
-    country = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
-    city = models.CharField(max_length=50)
-    order_note = models.CharField(max_length=100, blank=True)
-    order_total = models.FloatField()
-    tax = models.FloatField()
-    status = models.CharField(max_length=10, choices=STATUS, default='New')
-    ip = models.CharField(blank=True, max_length=20)
-    is_ordered = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, verbose_name='کاربر')
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='خرید')
+    order_number = models.CharField(max_length=20, verbose_name='شماره سفارش')
+    first_name = models.CharField(max_length=50, verbose_name='نام')
+    last_name = models.CharField(max_length=50, verbose_name='نام خانوادگی')
+    phone = models.CharField(max_length=15, verbose_name='شماره همراه')
+    email = models.EmailField(blank=True, null=True, max_length=50, verbose_name='ایمیل')
+    address_line_1 = models.CharField(max_length=50, verbose_name='ادرس ')
+    country = models.CharField(max_length=50, verbose_name='کشور')
+    state = models.CharField(max_length=50, verbose_name='کوچه')
+    city = models.CharField(max_length=50, verbose_name='شهر')
+    order_note = models.CharField(max_length=100, blank=True, verbose_name='یادداشت')
+    order_total = models.FloatField(verbose_name='قیمت کل')
+    status = models.CharField(max_length=10, choices=STATUS, default='New', verbose_name='وضعیت')
+    ip = models.CharField(blank=True, max_length=20, verbose_name='ادرس ip')
+    is_ordered = models.BooleanField(default=False, verbose_name='وضعیت خرید')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='تاریخ بروزرسانی')
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
-
-    def full_address(self):
-        return f'{self.address_line_1} {self.address_line_2}'
 
     def __str__(self):
         return self.first_name
@@ -80,5 +75,3 @@ class OrderProduct(models.Model):
     class Meta:
         verbose_name = 'سفارش محصول'
         verbose_name_plural = 'سفارش محصولات'
-
-
