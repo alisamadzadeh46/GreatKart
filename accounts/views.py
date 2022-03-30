@@ -7,7 +7,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from randominfo import get_email
 
+from accounts.email import random_char
 from accounts.forms import RegistrationForm, UserForm, UserProfileForm
 from accounts.models import Account, UserProfile
 from carts.models import Cart, CartItem
@@ -26,23 +28,32 @@ def register(request):
             phone_number = form.cleaned_data['phone_number']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            username = email.split("@")[0]
-            user = Account.objects.create_user(first_name=first_name, last_name=last_name, email=email,
-                                               username=username, password=password)
+            # username = email.split("@")[0]
+            username = form.cleaned_data['phone_number']
+            if email is None:
+                user = Account.objects.create_user(first_name=first_name, last_name=last_name,
+                                                   email=random_char(7)+"@gmail.com",
+                                                   username=username, password=password)
+            else:
+                user = Account.objects.create_user(first_name=first_name, last_name=last_name, email=email,
+                                                   username=username, password=password)
             user.phone_number = phone_number
+            user.is_active = True
             user.save()
-            current_site = get_current_site(request)
-            mail_subject = 'Please activate your account'
-            message = render_to_string('account/account_verification_email.html', {
-                'user': user,
-                'domain': current_site,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
-            to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
-            return redirect('/account/login/?command=verification&email=' + email)
+            # current_site = get_current_site(request)
+            # mail_subject = 'فعالسازی حساب کاربری'
+            # message = render_to_string('account/account_verification_email.html', {
+            #     'user': user,
+            #     'domain': current_site,
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token': default_token_generator.make_token(user),
+            # })
+            # to_email = email
+            # send_email = EmailMessage(mail_subject, message, to=[to_email])
+            # send_email.send()
+            # return redirect('/account/login/?command=verification&email=' + email)
+            messages.success(request, 'حساب کاربری شما با موفقیت فعال گردید')
+            return redirect('account:login')
 
 
     else:
@@ -55,10 +66,10 @@ def register(request):
 
 def login(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        phone = request.POST['phone']
         password = request.POST['password']
 
-        user = auth.authenticate(email=email, password=password)
+        user = auth.authenticate(username=phone, password=password)
 
         if user is not None:
             try:
@@ -101,7 +112,7 @@ def login(request):
             except:
                 pass
             auth.login(request, user)
-            messages.success(request, 'You are now logged in.')
+            messages.success(request, 'شما با موفقیت وارد حساب شدید.')
             url = request.META.get('HTTP_REFERER')
             try:
                 query = requests.utils.urlparse(url).query
@@ -113,7 +124,7 @@ def login(request):
             except:
                 return redirect('account:dashboard')
         else:
-            messages.error(request, 'Invalid login credentials')
+            messages.error(request, 'خطا در ورود به حساب کاربری')
             return redirect('account:login')
     return render(request, 'account/login.html')
 
@@ -121,7 +132,7 @@ def login(request):
 @login_required(login_url='account:login')
 def logout(request):
     auth.logout(request)
-    messages.success(request, 'You are logged out.')
+    messages.success(request, 'شما با موفقیت از حساب کاربری خارج شدید.')
     return redirect('account:login')
 
 
@@ -135,10 +146,10 @@ def activate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        messages.success(request, 'Congratulations! Your account is activated.')
+        messages.success(request, 'حساب کاربری شما با موفقیت فعال گردید')
         return redirect('account:login')
     else:
-        messages.error(request, 'Invalid activation link')
+        messages.error(request, 'لینک فعالسازی معتبر نیست')
         return redirect('account:register')
 
 
@@ -146,10 +157,12 @@ def activate(request, uidb64, token):
 def dashboard(request):
     orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
     orders_count = orders.count()
-    userprofile = UserProfile.objects.get(user_id=request.user.id)
+    userprofile = UserProfile.objects.get_or_create(user_id=request.user.id)
+    image = UserProfile.objects.get(user_id=request.user.id)
     context = {
         'orders_count': orders_count,
         'userprofile': userprofile,
+        'image': image,
     }
     return render(request, 'account/dashboard.html', context)
 
@@ -162,7 +175,7 @@ def forgotPassword(request):
 
             # Reset password email
             current_site = get_current_site(request)
-            mail_subject = 'Reset Your Password'
+            mail_subject = 'بازیابی رمز عبور'
             message = render_to_string('account/reset_password_email.html', {
                 'user': user,
                 'domain': current_site,
@@ -173,10 +186,10 @@ def forgotPassword(request):
             send_email = EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
 
-            messages.success(request, 'Password reset email has been sent to your email address.')
+            messages.success(request, 'لینک بازیابی به ایمیل شما ارسال گردید')
             return redirect('account:login')
         else:
-            messages.error(request, 'Account does not exist!')
+            messages.error(request, 'ایمیل وارد شده اشتباه است.')
             return redirect('account:forgotPassword')
     return render(request, 'account/forgotPassword.html')
 
@@ -191,10 +204,10 @@ def reset_password_validate(request, uidb64, token):
 
     if user is not None and default_token_generator.check_token(user, token):
         request.session['uid'] = uid
-        messages.success(request, 'Please reset your password')
+        messages.success(request, 'لطفا رمز عبور خود را تغییر دهید.')
         return redirect('account:resetPassword')
     else:
-        messages.error(request, 'This link has been expired!')
+        messages.error(request, 'لینک فعالسازی شما فاید اعتبار می باشد')
         return redirect('account:login')
 
 
@@ -208,10 +221,10 @@ def resetPassword(request):
             user = Account.objects.get(pk=uid)
             user.set_password(password)
             user.save()
-            messages.success(request, 'Password reset successful')
+            messages.success(request, 'رمز عبور شما با موفقیت تغییر پیدا کرد')
             return redirect('account:login')
         else:
-            messages.error(request, 'Password do not match!')
+            messages.error(request, 'رمز عبور با تکرار ان مطابقت ندارد')
             return redirect('account:resetPassword')
     else:
         return render(request, 'account/reset_password.html')
@@ -235,7 +248,7 @@ def edit_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your profile has been updated.')
+            messages.success(request, 'اطلاعات شما با موفقیت بروزرسانی شد')
             return redirect('account:edit_profile')
     else:
         user_form = UserForm(instance=request.user)
@@ -261,13 +274,13 @@ def change_password(request):
             if success:
                 user.set_password(new_password)
                 user.save()
-                messages.success(request, 'Password update')
+                messages.success(request, 'رمز عبور شما با موفقیت بروزرسانی شد')
                 return redirect('account:change_password')
             else:
-                messages.error(request, 'Please enter valid current password.')
+                messages.error(request, 'رمز عبور شما فاقد اعتبار است.')
                 return redirect('account:change_password')
         else:
-            messages.error(request, 'password does not match.')
+            messages.error(request, 'رمزعبور با تکرار ان مطابقت ندارد')
             return redirect('account:change_password')
     return render(request, 'account/change_password.html')
 

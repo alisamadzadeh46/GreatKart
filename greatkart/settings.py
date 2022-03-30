@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'jalali_date',
+    'mptt',
 
     # My app
     'home.apps.HomeConfig',
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
+    'ads.apps.AdsConfig',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +59,30 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+JALALI_DATE_DEFAULTS = {
+    'Strftime': {
+        'date': '%y/%m/%d',
+        'datetime': '%H:%M:%S _ %y/%m/%d',
+    },
+    'Static': {
+        'js': [
+            # loading datepicker
+            'admin/js/django_jalali.min.js',
+            # OR
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/calendar.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js',
+            # 'admin/js/main.js',
+        ],
+        'css': {
+            'all': [
+                'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css',
+            ]
+        }
+    },
+}
 
 ROOT_URLCONF = 'greatkart.urls'
 
@@ -72,7 +100,12 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_link',
                 'carts.context_processors.counter',
+
             ],
+            'libraries': {
+                'persian_number': 'home.templatetags.persian_number',
+
+            }
         },
     },
 ]
@@ -83,10 +116,19 @@ WSGI_APPLICATION = 'greatkart.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'takkamarket',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
 }
 
 # Password validation
@@ -145,8 +187,23 @@ MESSAGE_TAGS = {
 }
 
 # SMTP configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'ali.smd1377@gmail.com'
-EMAIL_HOST_PASSWORD = 'com9090123'
+EMAIL_HOST_USER = 'takkamarkett@gmail.com'
+EMAIL_HOST_PASSWORD = 'hdcajfbhsovwdegc'
 EMAIL_USE_TLS = True
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'mail.takkamarket.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'takka@takkamarket.com'
+# EMAIL_HOST_PASSWORD = 'jlW49EaJ(dMa'
+# ~ZN5},ZUXR=&
+
+
+# hdcajfbhsovwdegc
+
+
+

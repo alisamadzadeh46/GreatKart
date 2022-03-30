@@ -1,95 +1,125 @@
 {% extends 'base/base.html' %}
-{% block title %} GreatKart | Store {% endblock %}
+{% load humanize %}
+{% load persian_number %}
+{% block title %} فروشگاه | تک کا مارکت {% endblock %}
 {% block content %}
-
 
     <section class="section-pagetop bg">
         <div class="container">
             {% if 'search' in request.path %}
-                <h2 class="title-page">Search Result</h2>
+                <h2 class="title-page new-font" style="text-align: center;">نتایج جستجو</h2>
             {% else %}
-                <h2 class="title-page">Our Store</h2>
+                <h2 class="title-page new-font" style="text-align: center;">فروشگاه</h2>
             {% endif %}
 
         </div>
     </section>
 
-    <section class="section-content padding-y">
+    <section class="section-content padding-y" style="direction: rtl;">
         <div class="container">
 
             <div class="row">
                 <aside class="col-md-3">
 
-                    <div class="card">
+                    <div class="card new-font">
                         <article class="filter-group">
                             <header class="card-header">
                                 <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true"
                                    class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Categories</h6>
+                                    <i class="icon-control fa fa-chevron-down" style="margin: 5px;"></i>
+                                    <h6 class="title" style="text-align: right">دسته بندی ها</h6>
                                 </a>
                             </header>
                             <div class="filter-content collapse show" id="collapse_1" style="">
                                 <div class="card-body">
-
-                                    <ul class="list-menu">
-                                        <a href="{% url 'store:store' %}"> All products </a>
+                                    <ul class="list-menu" style="text-align: right;margin: 5px;">
+                                        <a href="{% url 'store:store' %}" class="new-font"> تمامی محصولات </a>
+                                        <br>
                                         {% for category in links %}
-                                            <li>
-                                                <a href="{% url 'store:products_by_category' category.slug %}">{{ category.category_name }} </a>
-                                            </li>
+                                            <br>
+                                            {% if not category.children.all %}
+
+                                                <i class="icon-control fa fa-chevron-down" style="margin: 5px;"> <a
+                                                        href="{% url 'store:products_by_category' category.slug %}"
+                                                        class="navbar-item new-font"
+                                                        style="font-size: 12px;">{{ category.title |   persianize_digits }}</a>
+                                                </i>
+                                                <br>
+                                            {% else %}
+                                                <br>
+                                                <div class="navbar-item has-dropdown is-hoverable"
+                                                     style="font-size: 21px;">
+                                                    <a href="{% url 'store:products_by_category' category.slug %}"
+                                                       class="navbar-link Yekan-font">{{ category.title |  persianize_digits }}</a>
+                                                </div>
+                                            {% endif %}
                                         {% endfor %}
+                                        {#                                        {% for category in links %}#}
+                                        {#                                            <li>#}
+                                        {#                                                {% if not category.children.all %}#}
+                                        {#                                                    <a href="{% url 'store:products_by_category' category.slug %}">{{ category.title }} </a>#}
+                                        {#                                                {% else %}#}
+                                        {#                                                    <div class="navbar-item has-dropdown is-hoverable">#}
+                                        {#                                                        <a href="{% url 'store:products_by_category' category.slug %}">{{ category.title }} </a>#}
+                                        {#                                                    </div>#}
+                                        {#                                                {% endif %}#}
+                                        {##}
+                                        {##}
+                                        {#                                            </li>#}
+                                        {#                                        {% endfor %}#}
+
+
                                     </ul>
                                 </div>
                             </div>
                         </article>
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true"
-                                   class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Sizes </h6>
-                                </a>
-                            </header>
-                            <div class="filter-content collapse show" id="collapse_4" style="">
-                                <div class="card-body">
-                                    <label class="checkbox-btn">
-                                        <input type="checkbox">
-                                        <span class="btn btn-light"> XS </span>
-                                    </label>
-
-                                    <label class="checkbox-btn">
-                                        <input type="checkbox">
-                                        <span class="btn btn-light"> SM </span>
-                                    </label>
-
-                                    <label class="checkbox-btn">
-                                        <input type="checkbox">
-                                        <span class="btn btn-light"> LG </span>
-                                    </label>
-
-                                    <label class="checkbox-btn">
-                                        <input type="checkbox">
-                                        <span class="btn btn-light"> XXL </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </article>
+                        {#                        <article class="filter-group">#}
+                        {#                            <header class="card-header">#}
+                        {#                                <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true"#}
+                        {#                                   class="">#}
+                        {#                                    <i class="icon-control fa fa-chevron-down" style="margin: 5px"></i>#}
+                        {#                                    <h6 class="title new-font" style="text-align: right;"> سایز </h6>#}
+                        {#                                </a>#}
+                        {#                            </header>#}
+                        {#                            <div class="filter-content collapse show" id="collapse_4" style="">#}
+                        {#                                <div class="card-body">#}
+                        {#                                    <label class="checkbox-btn">#}
+                        {#                                        <input type="checkbox">#}
+                        {#                                        <span class="btn btn-light"> XS </span>#}
+                        {#                                    </label>#}
+                        {##}
+                        {#                                    <label class="checkbox-btn">#}
+                        {#                                        <input type="checkbox">#}
+                        {#                                        <span class="btn btn-light"> SM </span>#}
+                        {#                                    </label>#}
+                        {##}
+                        {#                                    <label class="checkbox-btn">#}
+                        {#                                        <input type="checkbox">#}
+                        {#                                        <span class="btn btn-light"> LG </span>#}
+                        {#                                    </label>#}
+                        {##}
+                        {#                                    <label class="checkbox-btn">#}
+                        {#                                        <input type="checkbox">#}
+                        {#                                        <span class="btn btn-light"> XXL </span>#}
+                        {#                                    </label>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </article>#}
 
                         <article class="filter-group">
                             <header class="card-header">
                                 <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true"
                                    class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Price range </h6>
+                                    <i class="icon-control fa fa-chevron-down" style="margin: 5px;"></i>
+                                    <h6 class="title new-font" style="text-align: right;"> بازه قیمتی </h6>
                                 </a>
                             </header>
                             <div class="filter-content collapse show" id="collapse_3" style="">
                                 <div class="card-body">
 
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>Min</label>
+                                        <div class="form-group col-md-6 new-font">
+                                            <label>از</label>
 
                                             <select class="mr-2 form-control">
                                                 <option value="0">$0</option>
@@ -101,8 +131,8 @@
                                                 <option value="1000">$1000</option>
                                             </select>
                                         </div>
-                                        <div class="form-group text-right col-md-6">
-                                            <label>Max</label>
+                                        <div class="form-group text-right col-md-6 new-font">
+                                            <label>تا</label>
                                             <select class="mr-2 form-control">
                                                 <option value="50">$50</option>
                                                 <option value="100">$100</option>
@@ -114,7 +144,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <button class="btn btn-block btn-primary">Apply</button>
+                                    <button class="btn btn-block btn-primary new-font">اعمال</button>
                                 </div>
                             </div>
                         </article>
@@ -126,7 +156,7 @@
 
                     <header class="border-bottom mb-4 pb-3">
                         <div class="form-inline">
-                            <span class="mr-md-auto"> Found <b> {{ products_count }}</b> items found </span>
+                            <span class="mr-md-auto new-font"> ما  <b> {{ products_count }}</b> پیدا محصول کردیم  </span>
 
                         </div>
                     </header>
@@ -142,23 +172,26 @@
 
                                         </div> <!-- img-wrap.// -->
                                         <figcaption class="info-wrap">
-                                            <div class="fix-height">
+                                            <div class="fix-height new-font" style="text-align: right;">
                                                 <a href="{{ product.get_url }}"
-                                                   class="title">{{ product.product_name }}</a>
+                                                   class="title new-font"
+                                                   style="text-align: center;">{{ product.product_name | persianize_digits }}</a>
                                                 <div class="price-wrap mt-2">
-                                                    <span class="price">$ {{ product.price }}</span>
+                                                    <div class="price mt-1 new-font" style="text-align: center;">
+                                                        تومان {{ product.price | persian_int | intcomma:False }}</div>
                                                 </div>
                                             </div>
 
-                                            <a href="{{ product.get_url }}" class="btn btn-block btn-primary">View
-                                                Details</a>
+                                            <a href="{{ product.get_url }}" class="btn btn-block btn-primary new-font">
+                                                مشاهده جزئیات
+                                            </a>
                                         </figcaption>
                                     </figure>
                                 </div>
                             {% endfor %}
                         {% else %}
                             <div>
-                                <h2> No result found. Please try again.</h2>
+                                <h2 class="new-font"> محصولی یافت نشد</h2>
                             </div>
                         {% endif %}
                     </div>
@@ -168,11 +201,13 @@
                         {% if products.has_other_pages %}
                             <ul class="pagination">
                                 {% if products.has_previous %}
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page={{ products.previous_page_number }}">Previous</a>
+                                    <li class="page-item"><a class="page-link new-font"
+                                                             href="?page={{ products.previous_page_number }}"> صفحه
+                                        قبلی </a>
                                     </li>
                                 {% else %}
-                                    <li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+                                    <li class="page-item disabled"><a class="page-link new-font" href=""> صفحه قبلی </a>
+                                    </li>
                                 {% endif %}
                                 {% for i in products.paginator.page_range %}
                                     {% if products.number == i %}
@@ -182,10 +217,12 @@
                                     {% endif %}
                                 {% endfor %}
                                 {% if products.has_next %}
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page={{ products.next_page_number }}">Next</a></li>
+                                    <li class="page-item"><a class="page-link new-font"
+                                                             href="?page={{ products.next_page_number }}"> صفحه
+                                        بعدی </a></li>
                                 {% else %}
-                                    <li class="page-item disabled"><a class="page-link" href="">Next</a></li>
+                                    <li class="page-item disabled"><a class="page-link new-font" href=""> صفحه بعدی </a>
+                                    </li>
                                 {% endif %}
                             </ul>
                         {% endif %}
@@ -198,14 +235,17 @@
         </div>
     </section>
 
-    <footer class="section-footer border-top padding-y">
+    <footer class="section-footer border-top new-font">
         <div class="container">
-            <p class="float-md-right">
-                &copy Copyright 2019 All rights reserved
-            </p>
-            <p>
-                <a href="#">Terms and conditions</a>
-            </p>
+            <section class="footer-bottom border-top row">
+                <div class="col-md-2">
+                    <p class="text-muted"> &copy تک کا مارکت </p>
+                </div>
+                <div class="col-md-8 text-md-center">
+                    <span class="px-2">markettakka@gmail.com</span>
+                    <span class="px-2">09143520588</span>
+                </div>
+            </section>
         </div>
     </footer>
 
