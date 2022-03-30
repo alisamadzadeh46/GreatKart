@@ -1,8 +1,8 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %} GreatKart | Edit profile {% endblock %}
+{% block title %} ویرایش پروفایل  |  تک کا مارکت {% endblock %}
 {% block content %}
-    <section class="section-conten padding-y bg">
+    <section class="section-conten padding-y bg new-font">
 
         {% include 'base/alert.html' %}
         <div class="container">
@@ -11,7 +11,7 @@
                 <main class="col-md-9">
                     <article class="card">
                         <header class="card-header">
-                            <strong class="d-inline-block mr-3">Edit your profile</strong>
+                            <strong class="d-inline-block mr-3">ویرایش پروفایل</strong>
 
                         </header>
                         <div class="card-body">
@@ -24,25 +24,25 @@
                                         {% csrf_token %}
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label> First Name </label>
+                                                <label> نام </label>
                                                 {{ user_form.first_name }}
                                             </div>
 
 
                                             <div class="form-group col-md-6">
-                                                <label> Last Name </label>
+                                                <label> نام خانوادگی </label>
                                                 {{ user_form.last_name }}
                                             </div>
 
 
                                             <div class="form-group col-md-6">
-                                                <label> Phone number </label>
+                                                <label> شماره همراه </label>
                                                 {{ user_form.phone_number }}
                                             </div>
 
 
                                             <div class="form-group col-md-6">
-                                                <label> Profile Picture </label>
+                                                <label> عکس پروفایل </label>
                                                 <br>
                                                 {{ profile_form.profile_picture }}
                                                 <br>
@@ -50,32 +50,27 @@
 
                                         </div>
                                         <div class="form-group">
-                                            <label>Address Line 1 : </label>
+                                            <label> ادرس  </label>
                                             {{ profile_form.address_line1 }}
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Address Line 2 : </label>
-                                            {{ profile_form.address_line2 }}
 
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
-                                                <label> City </label>
+                                                <label> شهر </label>
                                                 {{ profile_form.city }}
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label> State </label>
+                                                <label> کوچه </label>
                                                 {{ profile_form.state }}
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label> Country </label>
+                                                <label> کشور </label>
                                                 {{ profile_form.country }}
                                             </div>
 
                                         </div>
 
-                                        <input type="submit" value="Save" class="btn btn-primary">
+                                        <input type="submit" value="ذخیره" class="btn btn-primary">
 
                                     </form>
 

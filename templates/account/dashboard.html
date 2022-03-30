@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
+{% load persian_number %}
 {% load static %}
-{% block title %} GreatKart | Dashboard {% endblock %}
+{% block title %} داشبور  |  تک کا مارکت {% endblock %}
 {% block content %}
-    <section class="section-conten padding-y bg">
+    <section class="section-conten padding-y bg new-font">
 
         {% include 'base/alert.html' %}
         <div class="container">
@@ -11,7 +12,7 @@
                 <main class="col-md-9">
                     <article class="card">
                         <header class="card-header">
-                            <strong class="d-inline-block mr-3">Logged in as : </strong>
+                            <strong class="d-inline-block mr-3"> سلام : </strong>
                             <span>{{ user.full_name }}</span>
                         </header>
                         <div class="card-body">
@@ -19,9 +20,9 @@
                                 <div class="col-md-6" style="text-align: center;">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title">Total Orders</h5>
-                                            <h4>{{ orders_count }}</h4>
-                                            <a href="{% url 'account:my_orders' %}">View Orders</a>
+                                            <h5 class="card-title">خرید های شما</h5>
+                                            <h4>{{ orders_count  |  persian_int }}</h4>
+                                            <a href="{% url 'account:my_orders' %}">مشاهده خرید ها</a>
                                         </div>
 
                                     </div>
@@ -29,7 +30,7 @@
                                 <div class="col-md-6">
                                     <div class="card" style="text-align: center;">
                                         <div class="card-body">
-                                            <img src="{{ userprofile.profile_picture.url }}"
+                                            <img src="{{ image.profile_picture.url }}"
                                                  alt="User Profile Picture" width="50" height="50"
                                                  style="border-radius: 50%;">
                                             <br>

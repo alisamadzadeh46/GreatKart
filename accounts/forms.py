@@ -2,13 +2,14 @@ from django import forms
 from .models import Account, UserProfile
 
 
+
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': 'Enter Password',
+        'placeholder': 'رمزعبور',
         'class': 'form-control',
     }))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': 'Confirm Password'
+        'placeholder': 'تکرار رمز عبور'
     }))
 
     class Meta:
@@ -22,15 +23,15 @@ class RegistrationForm(forms.ModelForm):
 
         if password != confirm_password:
             raise forms.ValidationError(
-                "Password does not match!"
+                "رمز عبور با تکرار ان مطابقت ندارد"
             )
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].widget.attrs['placeholder'] = 'Enter First Name'
-        self.fields['last_name'].widget.attrs['placeholder'] = 'Enter last Name'
-        self.fields['phone_number'].widget.attrs['placeholder'] = 'Enter Phone Number'
-        self.fields['email'].widget.attrs['placeholder'] = 'Enter Email Address'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'نام'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'نام خانوادگی'
+        self.fields['phone_number'].widget.attrs['placeholder'] = 'شماره همراه'
+        self.fields['email'].widget.attrs['placeholder'] = 'ایمیل'
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
 
@@ -53,7 +54,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('address_line1', 'address_line2', 'city', 'state', 'country', 'profile_picture')
+        fields = ('address_line1', 'city', 'state', 'country', 'profile_picture')
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)

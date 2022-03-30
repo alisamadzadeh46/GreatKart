@@ -1,3 +1,5 @@
+@import url(fonts.css);
+
 .rate > input {
     display: none;
 }
@@ -62,3 +64,13 @@ ul.thumb li img {
     height: 80px;
     border: 1px solid gray;
 }
+
+.new-font {
+    font-family: Diroz, sans-serif;
+}
+
+.Yekan-font {
+    font-family: Yekan, sans-serif;
+}
+
+
