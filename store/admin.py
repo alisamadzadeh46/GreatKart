@@ -16,13 +16,14 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ['img', ]
     inlines = [ProductGalleryInlineAdmin]
     list_per_page = 10
+    search_fields = ['product_name', 'price', 'stock', 'category', 'modified_date', 'is_available', 'img']
     list_filter = ['stock', 'category', 'is_available']
 
 
 @admin.register(Variation)
 class VariationAdmin(admin.ModelAdmin):
-    list_display = ['product', 'variation_category', 'variation_value', 'is_active', 'created_date', ]
-    list_filter = ['is_active', 'variation_category', ]
+    list_display = ['product', 'is_active', 'created_date']
+    list_filter = ['is_active', ]
     list_per_page = 10
 
 

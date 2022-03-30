@@ -1,10 +1,10 @@
 {% autoescape off %}
 
-Hi {{user.first_name}},
+سلام{{user.first_name}},
 
-Please click on below link to confirm your registration.
+لطفا برای فعالسازی حساب خود روی لینک زیر کلیک کنید
 http://{{domain}}{% url 'account:activate' uidb64=uid token=token %}
 
-If you think it's not you, please ignore this email.
+اگر درخواست از طرف شما نیست لطفا این ایمیل را نادیده بگیرید.
 
 {% endautoescape %}

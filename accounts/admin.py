@@ -19,6 +19,6 @@ class AccountAdmin(UserAdmin):
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'city', 'state', 'country', 'img']
-    search_fields = ['user', 'address_line1', 'address_line2', 'city', 'state', 'country']
+    search_fields = ['user', 'address_line1', 'city', 'state', 'country']
     readonly_fields = ['img', ]
     list_per_page = 10
