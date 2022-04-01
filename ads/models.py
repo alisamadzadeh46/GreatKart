@@ -11,6 +11,7 @@ class Ads(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     modified_date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ بروزرسانی')
     is_available = models.BooleanField(default=True, verbose_name='وضعیت')
+
     class Meta:
         verbose_name = 'تبلیغ'
         verbose_name_plural = 'تبلیغات'
