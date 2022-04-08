@@ -4,17 +4,48 @@
 {% load humanize %}
 {% block content %}
 
-        <section class="section-intro padding-y-sm">
-            <div class="container slideshow-container ">
-                <div class="intro-banner-wrap mySlides">
-                    {% for foo in slider %}
-                        <img src="{{ foo.image.url }}" class="img-fluid rounded">
-                    {% endfor %}
-                </div>
+    <section class="section-intro padding-y-sm">
+        <div class="container slideshow-container ">
+            <div class="intro-banner-wrap mySlides">
+                {% for foo in slider %}
+                    <img src="{{ foo.image.url }}" class="img-fluid rounded">
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </section>
+    <section class="section-name padding-y-sm">
+        <div class="container">
+
+            <header class="section-heading">
+                <a href="{% url 'ad:ads' %}" class="btn btn-outline-primary float-right new-font">مشاهده تمام
+                    اگهی </a>
+                <h3 class="section-title new-font">مناسب برای کسب و کار شما </h3>
+            </header>
+
+
+            <div class="row">
+                {% for ad in ads %}
+                    <div class="col-md-3">
+                        <div class="card card-product-grid">
+                            <a href="{{ ad.get_url }}"
+                               class="img-wrap"><img
+                                    src="{{ ad.image.url }}"> </a>
+                            <figcaption class="info-wrap">
+                                <a href="{{ ad.get_url }}"
+                                   class="title new-font"
+                                   style="text-align: center;">{{ ad.ads_name }}</a>
+                            </figcaption>
+                        </div>
+                    </div>
+                {% endfor %}
+
+
             </div>
 
-
-        </section>
+        </div>
+    </section>
 
 
     <section class="section-name padding-y-sm">
