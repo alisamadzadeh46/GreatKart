@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load humanize %}
+{% load persian_number %}
+{% block title %} جزئیات اگهی  |  تک کا مارکت {% endblock %}
+{% load jalali_tags %}
+{% block content %}
+    <section class="section-content padding-y bg new-font" style="direction: rtl; text-align: right;">
+        <div class="container">
+
+            <div class="card">
+                <div class="row no-gutters">
+                    <aside class="col-md-6">
+                        <article class="gallery-wrap">
+                            <div class="img-big-wrap main-image">
+                                <div style="text-align: center;"><img src="{{ single_ads.image.url }}"></div>
+                            </div>
+                            <ul class="thumb">
+                                <li>
+                                    <a href="{{ single_ads.image.url }}" target="main-image"><img
+                                            src="{{ single_ads.image.url }}"
+                                            alt="Product Image"></a>
+                                    {% for img in ads_gallery %}
+                                        <a href="{{ img.image.url }}" target="main-image"><img src="{{ img.image.url }}"
+                                                                                               alt="Ads Image"></a>
+                                    {% endfor %}
+                                </li>
+
+                            </ul>
+                        </article>
+                    </aside>
+                    <main class="col-md-6 border-left">
+
+                        <article class="content-body">
+
+                            <p class="new-font">{{ single_ads.description | linebreaks }}</p>
+
+                            <hr>
+
+                        </article> <!-- product-info-aside .// -->
+
+                    </main> <!-- col.// -->
+                </div>
+            </div>
+
+
+            <br>
+
+
+        </div>
+    </section>
+{% endblock %}

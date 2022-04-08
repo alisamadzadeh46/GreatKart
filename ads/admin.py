@@ -19,3 +19,10 @@ class AdsAdmin(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ['ads_name', 'modified_date', 'is_available', ]
     list_filter = ['is_available']
+
+
+@admin.register(AdsGallery)
+class AdsGalleryAdmin(admin.ModelAdmin):
+    list_display = ['ads', 'img']
+    readonly_fields = ['img', ]
+    list_per_page = 10
